@@ -4,13 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * Created by Pedro on 31/05/2018.
- */
+public class DbDesportoEscolarOpenHelper extends SQLiteOpenHelper {
 
-public class DbDesportoEscolarOpenHelper {
-
-    private static final String DATABASE_NAME = "desportoescolar.db";
+    private static final String DATABASE_NAME = "cinema.db";
     private static final int DATABASE_VERSION = 1;
 
 
@@ -29,5 +25,6 @@ public class DbDesportoEscolarOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
     }
-
 }
+
+
