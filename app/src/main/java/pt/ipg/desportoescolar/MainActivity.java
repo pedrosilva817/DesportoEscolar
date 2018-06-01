@@ -10,6 +10,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button buttonmasculino;
     private Button buttonfeminino;
+    private Button buttonmasculino;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
