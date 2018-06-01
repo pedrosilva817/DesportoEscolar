@@ -9,13 +9,13 @@
     <Button
         android:id="@+id/buttonmasculino"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="47dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="Desporto Masculino"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="155dp" />
+        tools:layout_editor_absoluteY="164dp" />
 
     <Button
         android:id="@+id/buttonfeminino"
