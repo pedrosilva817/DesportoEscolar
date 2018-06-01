@@ -9,6 +9,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     private Button buttonmasculino;
+    private Button buttonfeminino;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,9 +23,22 @@ public class MainActivity extends AppCompatActivity {
                 abrirmasculino();
             }
         });
+
+        buttonfeminino = (Button) findViewById(R.id.buttonfeminino);
+        buttonfeminino.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirfeminino();
+            }
+        });
     }
 
     public void abrirmasculino(){
+        Intent intent = new Intent(this, masculino.class);
+        startActivity(intent);
+    }
+
+    public void abrirfeminino(){
         Intent intent = new Intent(this, masculino.class);
         startActivity(intent);
     }
