@@ -8,7 +8,6 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button buttonmasculino;
     private Button buttonfeminino;
     private Button buttonmasculino;
 
