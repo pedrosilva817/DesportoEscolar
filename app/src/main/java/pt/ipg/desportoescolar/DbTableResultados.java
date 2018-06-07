@@ -3,6 +3,7 @@ package pt.ipg.desportoescolar;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
+import android.database.Cursor;
 
 /**
  * Created by Pedro on 31/06/2018.
@@ -36,5 +37,20 @@ public class DbTableResultados implements BaseColumns {
         return values;
     }
 
+    public long insert(ContentValues values){
+        return db.insert(TABLE_NAME, null, values);
+    }
+
+    public int update(ContentValues values, String whereClause, String[] whereArgs){
+        return db.update(TABLE_NAME, values, whereClause,whereArgs);
+    }
+
+    public int delete(String whereClause, String[] whereArgs) {
+        return db.delete(TABLE_NAME, whereClause, whereArgs);
+    }
+
+    public Cursor query (String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
+        return db.query(TABLE_NAME, columns, selection, selectionArgs, groupBy, having, orderBy);
+        }
 
 }
