@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DbDesportoEscolarOpenHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "desportoescolar.db";
+    public static final String DATABASE_NAME = "desportoescolar.db";
     private static final int DATABASE_VERSION = 1;
 
 
