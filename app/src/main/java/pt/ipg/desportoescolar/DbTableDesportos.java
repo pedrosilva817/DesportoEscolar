@@ -13,7 +13,6 @@ public class DbTableDesportos implements BaseColumns {
 
     public static final String TABLE_NAME = "desportos";
     private static final String FIELD_NAME = "nome";
-    private static final String FIELD_DATE = "data";
 
     private SQLiteDatabase db;
 

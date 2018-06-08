@@ -26,7 +26,7 @@ public class Atletas {
         return age;
     }
 
-    public void setPrice(int age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
