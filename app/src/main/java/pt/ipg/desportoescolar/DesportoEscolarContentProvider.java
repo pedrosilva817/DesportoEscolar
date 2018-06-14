@@ -19,10 +19,14 @@ import java.text.BreakIterator;
  * Created by Pedro on 14/06/2018.
  */
 public class DesportoEscolarContentProvider extends ContentProvider {
+    private static final String AUTHORITY = "pt.ipg.desportoescolar";
     private static final int ATLETAS = 100;
     private static final int ATLETAS_ID = 101;
     private static final int DESPORTOS = 200;
     private static final int DESPORTOS_ID = 201;
+    private static final String MULTIPLE_ITEMS = "vnd.android.cursor.dir";
+    private static final String SINGLE_ITEM = "vnd.android.cursor.item";
+
 
     DbDesportoEscolarOpenHelper desportoEscolarOpenHelper;
 
@@ -30,11 +34,11 @@ public class DesportoEscolarContentProvider extends ContentProvider {
     private static UriMatcher getDesportoEscolarUriMatcher() {
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
-        uriMatcher.addURI("pt.ipg.desportoescolar", "atletas", ATLETAS);
-        uriMatcher.addURI("pt.ipg.desportoescolar", "atletas/#", ATLETAS_ID);
+        uriMatcher.addURI(AUTHORITY, "books", ATLETAS);
+        uriMatcher.addURI(AUTHORITY, "books/#", ATLETAS_ID);
 
-        uriMatcher.addURI("pt.ipg.desportoescolar", "desportos", DESPORTOS);
-        uriMatcher.addURI("pt.ipg.desportoescolar", "desportos/#", DESPORTOS_ID);
+        uriMatcher.addURI(AUTHORITY, "categories", DESPORTOS);
+        uriMatcher.addURI(AUTHORITY, "categories/#", DESPORTOS_ID);
 
         return uriMatcher;
     }
@@ -66,10 +70,10 @@ public class DesportoEscolarContentProvider extends ContentProvider {
                 return new DbTableDesportos(db).query(projection, selection, selectionArgs, null, null, sortOrder);
 
             case ATLETAS_ID:
-                return new DbTableAtletas(db).query(projection, DbTableAtletas._ID + "=?", new String[]{id}, null, null, null);
+                return new DbTableAtletas(db).query(projection, DbTableBooks._ID + "=?", new String[] { id }, null, null, null);
 
             case DESPORTOS_ID:
-                return new DbTableDesportos(db).query(projection, DbTableDesportos._ID + "=?", new String[]{id}, null, null, null);
+                return new DbTableDesportos(db).query(projection, DbTableDesportos._ID + "=?", new String[] { id }, null, null, null);
 
             default:
                 throw new UnsupportedOperationException("Invalid URI: " + uri);
@@ -130,11 +134,11 @@ public class DesportoEscolarContentProvider extends ContentProvider {
 
         switch (matcher.match(uri)) {
             case ATLETAS_ID:
-                rows = new DbTableAtletas(db).delete(DbTableAtletas._ID +"=?", new String [] { id });
+                rows = new DbTableAtletas(db).delete(DbTableAtletas._ID + "=?", new String[]{id});
                 break;
 
             case DESPORTOS_ID:
-                rows = new DbTableDesportos(db).delete(DbTableDesportos._ID +"=?", new String [] { id });
+                rows = new DbTableDesportos(db).delete(DbTableDesportos._ID + "=?", new String[]{id});
                 break;
 
             default:
@@ -143,7 +147,8 @@ public class DesportoEscolarContentProvider extends ContentProvider {
 
         if (rows > 0) notifyChanges(uri);
 
-        return rows;;
+        return rows;
+        ;
     }
 
     @Override
