@@ -11,9 +11,14 @@ import android.support.annotation.Nullable;
  * Created by Pedro on 14/06/2018.
  */
 public class DesportoEscolarContentProvider extends ContentProvider {
+    DbDesportoEscolarOpenHelper desportoEscolarOpenHelper;
+
     @Override
     public boolean onCreate() {
         return false;
+        desportoEscolarOpenHelper = new DbDesportoEscolarOpenHelper(getContext());
+
+        return true;
     }
 
     @Nullable
