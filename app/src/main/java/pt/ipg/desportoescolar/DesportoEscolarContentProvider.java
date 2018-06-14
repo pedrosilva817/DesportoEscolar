@@ -119,8 +119,31 @@ public class DesportoEscolarContentProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+        SQLiteDatabase db = desportoEscolarOpenHelper.getWritableDatabase();
+
+        UriMatcher matcher = getDesportoEscolarUriMatcher();
+
+        String id = uri.getLastPathSegment();
+
+        int rows = 0;
+
+        switch (matcher.match(uri)) {
+            case ATLETAS_ID:
+                rows = new DbTableAtletas(db).delete(DbTableAtletas._ID +"=?", new String [] { id });
+                break;
+
+            case DESPORTOS_ID:
+                rows = new DbTableDesportos(db).delete(DbTableDesportos._ID +"=?", new String [] { id });
+                break;
+
+            default:
+                throw new UnsupportedOperationException("Invalid URI: " + uri);
+        }
+
+        if (rows > 0) notifyChanges(uri);
+
+        return rows;;
     }
 
     @Override
