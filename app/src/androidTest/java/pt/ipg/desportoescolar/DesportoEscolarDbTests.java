@@ -9,7 +9,6 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import static org.junit.Assert.*;
 
 /**
@@ -18,54 +17,53 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 
-
 @RunWith(AndroidJUnit4.class)
-public class BooksDbTests {
+public class DesportoEscolarDbTests {
     @Before
     public void setUp() {
         getContext().deleteDatabase(DbDesportoEscolarOpenHelper.DATABASE_NAME);
     }
 
     @Test
-    public void openBooksDbTest() {
+    public void openDesportoEscolarDbTest() {
         // Context of the app under test.
         Context appContext = getContext();
 
         DbDesportoEscolarOpenHelper dbDesportoEscolarOpenHelper = new DbDesportoEscolarOpenHelper(appContext);
 
         SQLiteDatabase db = dbDesportoEscolarOpenHelper.getReadableDatabase();
-        assertTrue("Could not open/create books database", db.isOpen());
+        assertTrue("Could not open/create desporto escolar database", db.isOpen());
         db.close();
     }
 
     @Test
-    public void categoriesCRUDtest() {
+    public void desportosCRUDtest() {
         DbDesportoEscolarOpenHelper dbDesportoEscolarOpenHelper = new DbDesportoEscolarOpenHelper(getContext());
 
         SQLiteDatabase db = dbDesportoEscolarOpenHelper.getWritableDatabase();
 
         DbTableDesportos tableDesportos = new DbTableDesportos(db);
 
-        Desportos desportos = new Desportos();
-        desportos.setName("Futsal");
+        Desporto desporto = new Desporto();
+        desporto.setName("Futsal");
 
         // Insert/create (C)RUD
-        long id = insertCategory(tableDesportos, desportos);
+        long id = insertCategory(tableDesportos, desporto);
 
         // query/read C(R)UD
-        desportos = ReadFirstCategory(tableDesportos, "Futsal", id);
+        desporto = ReadFirstDesporto(tableDesportos, "Futsal", id);
 
         // update CR(U)D
-        desportos.setName("Futebol de Salão");
+        desporto.setName("Futsal!");
         int rowsAffected = tableDesportos.update(
-                DbTableDesportos.getContentValues(desportos),
+                DbTableDesportos.getContentValues(desporto),
                 DbTableDesportos._ID + "=?",
                 new String[]{Long.toString(id)}
         );
         assertEquals("Failed to update category", 1, rowsAffected);
 
         // query/read C(R)UD
-        desportos = ReadFirstCategory(tableDesportos, "Sci-fi", id);
+        desporto = ReadFirstDesporto(tableDesportos, "Futsal!", id);
 
         // delete CRU(D)
         rowsAffected = tableDesportos.delete(
@@ -79,24 +77,24 @@ public class BooksDbTests {
     }
 
     @Test
-    public void booksCRUDtest() {
+    public void atletasCRUDtest() {
         DbDesportoEscolarOpenHelper dbDesportoEscolarOpenHelper = new DbDesportoEscolarOpenHelper(getContext());
 
         SQLiteDatabase db = dbDesportoEscolarOpenHelper.getWritableDatabase();
 
-        Desportos tableDesportos = new DbTableDesportos(db);
+        DbTableDesportos tableDesportos = new DbTableDesportos(db);
 
-        Desportos desportos = new Desportos();
-        desportos.setName("Basketball");
+        Desporto desporto = new Desporto();
+        desporto.setName("Basketball");
 
-        long idCategory = insertCategory(tableDesportos, desportos);
+        long idDeporto = insertDesporto(tableDesportos, desporto);
 
-        DbTableAtletas tableAtletas = new DbTableAtletas(db);
+        DbTableAtletas = new DbTableAtletas(db);
 
         // Insert/create (C)RUD
         Atletas atletas = new Atletas();
 
-        atletas.setName("Pedro Silva");
+        atletas.setName("Pedro");
         atletas.setAge(19);
         atletas.setCourse("Engenharia Informática");
 
@@ -106,21 +104,22 @@ public class BooksDbTests {
         assertNotEquals("Failed to insert atleta", -1, id);
 
         // query/read C(R)UD
-        atletas = ReadFirstBook(tableAtletas, "Pedro Silva", 19, , id);
+        atletas = ReadFirstBook(tableAtletas, "Pedro Silva", 9.99, idCategory, id);
 
         // update CR(U)D
         atletas.setName("Pedro Silva");
         atletas.setAge(19);
+        atletas.setCourse("Engenharia Informática");
 
         int rowsAffected = tableAtletas.update(
                 DbTableAtletas.getContentValues(atletas),
                 DbTableAtletas._ID + "=?",
                 new String[]{Long.toString(id)}
         );
-        assertEquals("Failed to update book", 1, rowsAffected);
+        assertEquals("Failed to update atleta", 1, rowsAffected);
 
         // query/read C(R)UD
-        atletas = ReadFirstBook(tableAtletas, "Pedro Silva", 19, course, id);
+        atletas = ReadFirstBook(tableAtletas, "Pedro Silva", 19, id);
 
         // delete CRU(D)
         rowsAffected = tableAtletas.delete(
@@ -133,38 +132,38 @@ public class BooksDbTests {
         assertEquals("Atletas found after delete ???", 0, cursor.getCount());
     }
 
-    private Atletas ReadFirstBook(DbTableAtletas tableBooks, String expectedName, int expectedAge, String expectedCourse, long expectedId) {
-        Cursor cursor = tableBooks.query(DbTableAtletas.ALL_COLUMNS, null, null, null, null, null);
+    private Atletas ReadFirstBook(DbTableAtletas , String expectedName, double expectedAge, String expectedCourse, long expectedId) {
+        Cursor cursor = tableAtletas.query(DbTableAtletas.ALL_COLUMNS, null, null, null, null, null);
         assertEquals("Failed to read atletas", 1, cursor.getCount());
 
         assertTrue("Failed to read the first atleta", cursor.moveToNext());
 
         Atletas atletas = DbTableAtletas.getCurrentBookFromCursor(cursor);
 
-        assertEquals("Incorrect atleta name", expectedName, atletas.getName());
-        assertEquals("Incorrect atleta age", expectedAge, atletas.getAge());
-        assertEquals("Incorrect atleta course", expectedCourse, atletas.getCourse());
+        assertEquals("Incorrect book title", expectedName, atletas.getName());
+        assertEquals("Incorrect book price", expectedAge, atletas.getAge(), 0.001);
+        assertEquals("Incorrect book category", expectedCourse, atletas.getCourse());
         assertEquals("Incorrect book id", expectedId, atletas.getId());
 
         return atletas;
     }
 
-    private long insertCategory(DbTableDesportos tableCategories, Desportos category) {
-        long id = tableCategories.insert(
-                DbTableDesportos.getContentValues(category)
+    private long insertCategory(DbTableDesportos , Desportos desportos) {
+        long id = tableDesportos.insert(
+                DbTableDesportos.getContentValues(desportos)
         );
 
-        assertNotEquals("Failed to insert a category", -1, id);
+        assertNotEquals("Failed to insert a desporto", -1, id);
 
         return id;
     }
 
     @NonNull
-    private Desportos ReadFirstCategory(DbTableDesportos tableCategories, String expectedName, long expectedId) {
-        Cursor cursor = tableCategories.query(DbTableDesportos.ALL_COLUMNS, null, null, null, null, null);
-        assertEquals("Failed to read categories", 1, cursor.getCount());
+    private Desportos ReadFirstDesporto(DbTableDesportos , String expectedName, long expectedId) {
+        Cursor cursor = tableDesportos.query(DbTableDesportos.ALL_COLUMNS, null, null, null, null, null);
+        assertEquals("Failed to read desportos", 1, cursor.getCount());
 
-        assertTrue("Failed to read the first category", cursor.moveToNext());
+        assertTrue("Failed to read the first desporto", cursor.moveToNext());
 
         Desportos desportos = DbTableDesportos.getCurrentCategoryFromCursor(cursor);
         assertEquals("Incorrect category name", expectedName, desportos.getName());
