@@ -3,11 +3,11 @@ package pt.ipg.desportoescolar;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
+import android.database.ContentObserver;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.ContentObserver;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -18,7 +18,9 @@ import java.text.BreakIterator;
 /**
  * Created by Pedro on 14/06/2018.
  */
+
 public class DesportoEscolarContentProvider extends ContentProvider {
+
     private static final String AUTHORITY = "pt.ipg.desportoescolar";
     private static final int ATLETAS = 100;
     private static final int ATLETAS_ID = 101;
@@ -45,7 +47,6 @@ public class DesportoEscolarContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        return false;
         desportoEscolarOpenHelper = new DbDesportoEscolarOpenHelper(getContext());
 
         return true;
@@ -53,8 +54,7 @@ public class DesportoEscolarContentProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Cursor query(@NonNull Uri uri, @Nullable String[] strings, @Nullable String s, @Nullable String[] strings1, @Nullable String s1) {
-        return null;
+    public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
 
         SQLiteDatabase db = desportoEscolarOpenHelper.getReadableDatabase();
 
@@ -70,7 +70,7 @@ public class DesportoEscolarContentProvider extends ContentProvider {
                 return new DbTableDesportos(db).query(projection, selection, selectionArgs, null, null, sortOrder);
 
             case ATLETAS_ID:
-                return new DbTableAtletas(db).query(projection, DbTableBooks._ID + "=?", new String[] { id }, null, null, null);
+                return new DbTableAtletas(db).query(projection, DbTableAtletas._ID + "=?", new String[] { id }, null, null, null);
 
             case DESPORTOS_ID:
                 return new DbTableDesportos(db).query(projection, DbTableDesportos._ID + "=?", new String[] { id }, null, null, null);
@@ -84,37 +84,31 @@ public class DesportoEscolarContentProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        return null;
+        UriMatcher matcher = getDesportoEscolarUriMatcher();
+
+        switch (matcher.match(uri)) {
+            case ATLETAS:
+                return MULTIPLE_ITEMS + "/" + AUTHORITY + "/" + DbTableAtletas.TABLE_NAME;
+
+            case DESPORTOS:
+                return MULTIPLE_ITEMS + "/" + AUTHORITY + "/" + DbTableDesportos.TABLE_NAME;
+
+            case ATLETAS_ID:
+                return SINGLE_ITEM + "/" + AUTHORITY + "/" + DbTableAtletas.TABLE_NAME;
+
+            case DESPORTOS_ID:
+                return SINGLE_ITEM + "/" + AUTHORITY + "/" + DbTableDesportos.TABLE_NAME;
+
+            default:
+                throw new UnsupportedOperationException("Unknown URI: " + uri);
+
+        }
     }
 
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
         return null;
-        SQLiteDatabase db = desportoEscolarOpenHelper.getWritableDatabase();
-
-        UriMatcher matcher = getDesportoEscolarUriMatcher();
-
-        long id = -1;
-        switch (matcher.match(uri)) {
-            case ATLETAS:
-                id = new DbTableAtletas(db).insert(values);
-                break;
-
-            case DESPORTOS:
-                id = new DbTableDesportos(db).insert(values);
-                break;
-
-            default:
-                throw new UnsupportedOperationException("Invalid URI: " + uri);
-        }
-
-        if (id > 0) {
-            notifyChanges(uri);
-            return Uri.withAppendedPath(uri, Long.toString(id));
-        } else {
-            throw new SQLException("Could not insert record");
-        }
     }
 
     private void notifyChanges(@NonNull Uri uri) {
@@ -148,7 +142,7 @@ public class DesportoEscolarContentProvider extends ContentProvider {
         if (rows > 0) notifyChanges(uri);
 
         return rows;
-        ;
+
     }
 
     @Override
