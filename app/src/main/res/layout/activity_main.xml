@@ -7,38 +7,29 @@
     tools:context="pt.ipg.desportoescolar.MainActivity">
 
     <Button
-        android:id="@+id/buttonmasculino"
+        android:id="@+id/buttonShowAtletas"
         android:layout_width="wrap_content"
         android:layout_height="47dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="150dp"
-        android:text="Desporto Masculino"
+        android:text="Ver Atletas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/buttonfeminino"
+        android:id="@+id/buttonShowRecentes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Desporto Feminino"
+        android:text="vistos recentemente"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonmasculino" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonShowAtletas" />
 
-    <Button
-        android:id="@+id/buttonresultados"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Resultados"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonfeminino" />
 </android.support.constraint.ConstraintLayout>
