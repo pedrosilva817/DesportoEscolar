@@ -24,4 +24,24 @@
         android:id="@+id/include"
         layout="@layout/content_main" />
 
+    <Button
+        android:id="@+id/buttonAPI"
+        style="@android:style/Widget.Button.Inset"
+        android:layout_width="126dp"
+        android:layout_height="wrap_content"
+        android:text="Outros Atletas"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="right|bottom" />
+
+    <Button
+        android:id="@+id/buttonAdd"
+        style="@android:style/Widget.Button.Inset"
+        android:layout_width="114dp"
+        android:layout_height="wrap_content"
+        android:text="Adicionar Atleta"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="left|bottom" />
+
 </android.support.design.widget.CoordinatorLayout>

@@ -32,7 +32,7 @@ public class DesportoEscolarCursorAdapter extends RecyclerView.Adapter<DesportoE
         this.viewHolderClickListener = viewHolderClickListener;
     }
 
-    public int getLastFIlmekClicked() {
+    public int getlastAtletaClicked() {
         return lastAtletaClicked;
     }
 
@@ -60,26 +60,22 @@ public class DesportoEscolarCursorAdapter extends RecyclerView.Adapter<DesportoE
         return cursor.getCount();
     }
 
-    public int getlastAtletaClicked() {
-        return lastAtletaClicked;
-    }
-
     public class DesportoEscolarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView textViewNome;
+        private TextView textViewName;
         private TextView textViewAge;
         private int AtletaId;
 
         public DesportoEscolarViewHolder(View itemView) {
             super(itemView);
 
-            textViewNome = (TextView) itemView.findViewById(R.id.textViewNome);
+            textViewName = (TextView) itemView.findViewById(R.id.textViewName);
             textViewAge = (TextView) itemView.findViewById(R.id.textViewAge);
 
             itemView.setOnClickListener(this);
         }
 
         public void setAtleta(Atletas atletas) {
-            textViewNome.setText(atletas.getName());
+            textViewName.setText(atletas.getName());
             textViewAge.setText(String.format("%.2f", atletas.getAge()) + "");
             AtletaId = atletas.getId();
         }
@@ -104,5 +100,3 @@ public class DesportoEscolarCursorAdapter extends RecyclerView.Adapter<DesportoE
         }
     }
 }
-
-

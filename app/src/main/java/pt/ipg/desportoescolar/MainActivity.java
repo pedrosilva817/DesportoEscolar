@@ -16,12 +16,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final int DESPORTOESCOLAR_CURSOR_LOADER_ID = 0;
     public static final String DESPORTOESCOLAR_ID = "DESPORTOESCOLAR_ID";
-
+    private Button buttonAdd;
     private DesportoEscolarCursorAdapter atletasCursorAdapter;
     private RecyclerView recyclerViewAtletas;
 
@@ -46,8 +47,23 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
 
         getSupportLoaderManager().initLoader(DESPORTOESCOLAR_CURSOR_LOADER_ID, null, this);
+
+
+
+    buttonAdd = (Button) findViewById(R.id.buttonAdd);
+         buttonAdd.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            abrirAddatleta();
+        }
+    });
+
     }
 
+    public void abrirAddatleta() {
+        Intent intent = new Intent(this, AddAtleta.class);
+        startActivity(intent);
+    }
     private void editAtleta() {
         int id = atletasCursorAdapter.getlastAtletaClicked();
 

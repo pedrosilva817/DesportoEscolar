@@ -8,7 +8,7 @@ public class DbDesportoEscolarOpenHelper extends SQLiteOpenHelper {
     private static final boolean PRODUCTION = false;
 
     public static final String DATABASE_NAME = "desportoescolar.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
 
     public DbDesportoEscolarOpenHelper(Context context) {
@@ -45,6 +45,24 @@ public class DbDesportoEscolarOpenHelper extends SQLiteOpenHelper {
         dbTableDesportos.insert(DbTableDesportos.getContentValues(desportos));
         int idDesportoAtletismo = (int) dbTableDesportos.insert(DbTableDesportos.getContentValues(desportos));
 
+        desportos = new Desportos();
+        desportos.setName("Basketball");
+        int idDesportoBasketball = (int) dbTableDesportos.insert(DbTableDesportos.getContentValues(desportos));
+
+        desportos = new Desportos();
+        desportos.setName("Futebol");
+        dbTableDesportos.insert(DbTableDesportos.getContentValues(desportos));
+        int idDesportoFutebol = (int) dbTableDesportos.insert(DbTableDesportos.getContentValues(desportos));
+        desportos = new Desportos();
+        desportos.setName("Voleibol");
+        int idDesportoVoleibol = (int) dbTableDesportos.insert(DbTableDesportos.getContentValues(desportos));
+
+        desportos = new Desportos();
+        desportos.setName("Natação");
+        dbTableDesportos.insert(DbTableDesportos.getContentValues(desportos));
+        int idDesportoNatacao = (int) dbTableDesportos.insert(DbTableDesportos.getContentValues(desportos));
+
+
         DbTableAtletas dbTableAtletas = new DbTableAtletas(db);
 
         Atletas atleta = new Atletas();
@@ -64,8 +82,31 @@ public class DbDesportoEscolarOpenHelper extends SQLiteOpenHelper {
         atleta.setIdDesporto(idDesportoAndebol);
         atleta.setAge(20);
         dbTableAtletas.insert(DbTableAtletas.getContentValues(atleta));
-    }
 
+        atleta = new Atletas();
+        atleta.setName("Patricia Oliveira");
+        atleta.setIdDesporto(idDesportoBasketball);
+        atleta.setAge(21);
+        dbTableAtletas.insert(DbTableAtletas.getContentValues(atleta));
+
+        atleta = new Atletas();
+        atleta.setName("Ana Silva");
+        atleta.setIdDesporto(idDesportoFutebol);
+        atleta.setAge(19);
+        dbTableAtletas.insert(DbTableAtletas.getContentValues(atleta));
+
+        atleta = new Atletas();
+        atleta.setName("Cabo Felix");
+        atleta.setIdDesporto(idDesportoVoleibol);
+        atleta.setAge(26);
+        dbTableAtletas.insert(DbTableAtletas.getContentValues(atleta));
+
+        atleta = new Atletas();
+        atleta.setName("Rui Oliveira");
+        atleta.setIdDesporto(idDesportoNatacao);
+        atleta.setAge(23);
+        dbTableAtletas.insert(DbTableAtletas.getContentValues(atleta));
+    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

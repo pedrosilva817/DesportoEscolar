@@ -162,7 +162,7 @@ public class DesportoEscolarDbTests {
 
         assertTrue("Failed to read the first desporto", cursor.moveToNext());
 
-        Desportos desporto = DbTableDesportos.getCurrentCategoryFromCursor(cursor);
+        Desportos desporto = DbTableDesportos.getCurrentDesportoFromCursor(cursor);
         assertEquals("Incorrect desporto name", expectedName, desporto.getName());
         assertEquals("Incorrect desporto id", expectedId, desporto.getId());
 

@@ -5,14 +5,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
-/**
- * Created by Pedro on 31/05/2018.
- */
 
 public class DbTableDesportos implements BaseColumns {
 
     public static final String TABLE_NAME = "desportos";
-    public static final String FIELD_NAME = "nome";
+    public static final String FIELD_NAME = "name";
     public static final String [] ALL_COLUMNS = new String[] { _ID, FIELD_NAME };
 
     private SQLiteDatabase db;
@@ -40,7 +37,7 @@ public class DbTableDesportos implements BaseColumns {
         return values;
     }
 
-    public static Desportos getCurrentCategoryFromCursor(Cursor cursor) {
+    public static Desportos getCurrentDesportoFromCursor(Cursor cursor) {
         final int posId = cursor.getColumnIndex(_ID);
         final int posName = cursor.getColumnIndex(FIELD_NAME);
 
@@ -63,6 +60,7 @@ public class DbTableDesportos implements BaseColumns {
     public int delete(String whereClause, String[] whereArgs) {
         return db.delete(TABLE_NAME, whereClause, whereArgs);
     }
+
     public Cursor query (String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
         return db.query(TABLE_NAME, columns, selection, selectionArgs, groupBy, having, orderBy);
     }

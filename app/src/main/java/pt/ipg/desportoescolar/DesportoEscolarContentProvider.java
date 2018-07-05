@@ -33,9 +33,7 @@ public class DesportoEscolarContentProvider extends ContentProvider {
     private static final String MULTIPLE_ITEMS = "vnd.android.cursor.dir";
     private static final String SINGLE_ITEM = "vnd.android.cursor.item";
 
-
     DbDesportoEscolarOpenHelper desportoEscolarOpenHelper;
-
 
     private static UriMatcher getDesportoEscolarUriMatcher() {
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -74,10 +72,12 @@ public class DesportoEscolarContentProvider extends ContentProvider {
                 return new DbTableDesportos(db).query(projection, selection, selectionArgs, null, null, sortOrder);
 
             case ATLETAS_ID:
-                return new DbTableAtletas(db).query(projection, DbTableAtletas._ID + "=?", new String[] { id }, null, null, null);
+                return new DbTableAtletas(db).query(projection, DbTableAtletas._ID + "=?", new String[] {
+                        id }, null, null, null);
 
             case DESPORTOS_ID:
-                return new DbTableDesportos(db).query(projection, DbTableDesportos._ID + "=?", new String[] { id }, null, null, null);
+                return new DbTableDesportos(db).query(projection, DbTableDesportos._ID + "=?", new String[] {
+                        id }, null, null, null);
 
             default:
                 throw new UnsupportedOperationException("Invalid URI: " + uri);
@@ -111,9 +111,34 @@ public class DesportoEscolarContentProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
-        return null;
-    }
+    public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
+            SQLiteDatabase db = desportoEscolarOpenHelper.getWritableDatabase();
+
+            UriMatcher matcher = getDesportoEscolarUriMatcher();
+
+            long id = -1;
+
+            switch (matcher.match(uri)) {
+                case ATLETAS:
+                    id = new DbTableAtletas(db).insert(values);
+                    break;
+
+                case DESPORTOS:
+                    id = new DbTableDesportos(db).insert(values);
+                    break;
+
+                default:
+                    throw new UnsupportedOperationException("Invalid URI: " + uri);
+            }
+
+            if (id > 0) {
+                notifyChanges(uri);
+                return Uri.withAppendedPath(uri, Long.toString(id));
+            } else {
+                throw new SQLException("Could not insert record");
+            }
+        }
+
 
     private void notifyChanges(@NonNull Uri uri) {
         getContext().getContentResolver().notifyChange(uri, null);
