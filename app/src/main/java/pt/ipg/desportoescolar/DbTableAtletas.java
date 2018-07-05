@@ -13,9 +13,9 @@ public class DbTableAtletas implements BaseColumns {
     public static final String TABLE_NAME = "atletas";
     private static final String FIELD_NAME = "name";
     private static final String FIELD_AGE = "age";
-    private static final String FIELD_COURSE = "course";
+    private static final String FIELD_ID_DESPORTO = "idDesporto";
 
-    public static final String[] ALL_COLUMNS = new String[]{_ID, FIELD_NAME, FIELD_AGE, FIELD_COURSE};
+    public static final String[] ALL_COLUMNS = new String[]{_ID, FIELD_NAME, FIELD_AGE, FIELD_ID_DESPORTO};
 
     private SQLiteDatabase db;
 
@@ -27,20 +27,22 @@ public class DbTableAtletas implements BaseColumns {
         db.execSQL(
                 "CREATE TABLE " + TABLE_NAME + " (" +
                         _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        FIELD_NAME + " TEXT NOT NULL, " +
-                        FIELD_AGE + " REAL, " +
-                        FIELD_COURSE + " TEXT NOT NULL" +
+                        FIELD_NAME + " TEXT NOT NULL," +
+                        FIELD_AGE + " REAL," +
+                        FIELD_ID_DESPORTO + " INTEGER," +
+                        "FOREIGN KEY (" + FIELD_ID_DESPORTO + ") REFERENCES " +
+                        DbTableDesportos.TABLE_NAME +
+                        "(" + DbTableDesportos._ID +")" +
                         ")"
         );
     }
 
-    public static ContentValues getContentValues(Atletas atletas) {
+    public static ContentValues getContentValues(Atletas atleta) {
         ContentValues values = new ContentValues();
 
-        values.put(_ID, atletas.getId());
-        values.put(FIELD_NAME, atletas.getName());
-        values.put(FIELD_AGE, atletas.getAge());
-        values.put(FIELD_COURSE, atletas.getCourse());
+        values.put(FIELD_NAME, atleta.getName());
+        values.put(FIELD_AGE, atleta.getAge());
+        values.put(FIELD_ID_DESPORTO, atleta.getIdDesporto());
 
         return values;
     }
@@ -48,13 +50,13 @@ public class DbTableAtletas implements BaseColumns {
     public static Atletas getCurrentAtletaFromCursor(Cursor cursor) {
         final int posName = cursor.getColumnIndex(FIELD_NAME);
         final int posAge = cursor.getColumnIndex(FIELD_AGE);
-        final int posCourse = cursor.getColumnIndex(FIELD_COURSE);
+        final int posIdDesporto = cursor.getColumnIndex(FIELD_ID_DESPORTO);
 
         Atletas atleta = new Atletas();
 
         atleta.setName(cursor.getString(posName));
         atleta.setAge(cursor.getInt(posAge));
-        atleta.setCourse(cursor.getString(posCourse));
+        atleta.setIdDesporto(cursor.getInt(posIdDesporto));
 
         return atleta;
     }

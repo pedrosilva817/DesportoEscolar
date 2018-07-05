@@ -12,7 +12,8 @@ import android.provider.BaseColumns;
 public class DbTableDesportos implements BaseColumns {
 
     public static final String TABLE_NAME = "desportos";
-    private static final String FIELD_NAME = "nome";
+    public static final String FIELD_NAME = "nome";
+    public static final String [] ALL_COLUMNS = new String[] { _ID, FIELD_NAME };
 
     private SQLiteDatabase db;
 
@@ -34,13 +35,21 @@ public class DbTableDesportos implements BaseColumns {
 
         values.put(_ID, desportos.getId());
         values.put(FIELD_NAME, desportos.getName());
-        /*
-        *
-        DATA
-        *
-        */
+
 
         return values;
+    }
+
+    public static Desportos getCurrentCategoryFromCursor(Cursor cursor) {
+        final int posId = cursor.getColumnIndex(_ID);
+        final int posName = cursor.getColumnIndex(FIELD_NAME);
+
+        Desportos desporto = new Desportos();
+
+        desporto.setId(cursor.getInt(posId));
+        desporto.setName(cursor.getString(posName));
+
+        return desporto;
     }
 
     public long insert(ContentValues values) {

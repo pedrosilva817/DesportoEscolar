@@ -15,17 +15,21 @@ import android.support.annotation.Nullable;
 
 import java.text.BreakIterator;
 
-/**
- * Created by Pedro on 14/06/2018.
- */
 
 public class DesportoEscolarContentProvider extends ContentProvider {
 
     private static final String AUTHORITY = "pt.ipg.desportoescolar";
+
+    public static final Uri BASE_URI = Uri.parse("content://" + AUTHORITY);
+    public static final Uri ATLETAS_URI = Uri.withAppendedPath(BASE_URI, DbTableAtletas.TABLE_NAME);
+    public static final Uri DESPORTOS_URI = Uri.withAppendedPath(BASE_URI, DbTableDesportos.TABLE_NAME);
+
+
     private static final int ATLETAS = 100;
     private static final int ATLETAS_ID = 101;
     private static final int DESPORTOS = 200;
     private static final int DESPORTOS_ID = 201;
+
     private static final String MULTIPLE_ITEMS = "vnd.android.cursor.dir";
     private static final String SINGLE_ITEM = "vnd.android.cursor.item";
 
@@ -36,11 +40,11 @@ public class DesportoEscolarContentProvider extends ContentProvider {
     private static UriMatcher getDesportoEscolarUriMatcher() {
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
-        uriMatcher.addURI(AUTHORITY, "books", ATLETAS);
-        uriMatcher.addURI(AUTHORITY, "books/#", ATLETAS_ID);
+        uriMatcher.addURI(AUTHORITY, "atletas", ATLETAS);
+        uriMatcher.addURI(AUTHORITY, "atletas/#", ATLETAS_ID);
 
-        uriMatcher.addURI(AUTHORITY, "categories", DESPORTOS);
-        uriMatcher.addURI(AUTHORITY, "categories/#", DESPORTOS_ID);
+        uriMatcher.addURI(AUTHORITY, "desportos", DESPORTOS);
+        uriMatcher.addURI(AUTHORITY, "desportos/#", DESPORTOS_ID);
 
         return uriMatcher;
     }

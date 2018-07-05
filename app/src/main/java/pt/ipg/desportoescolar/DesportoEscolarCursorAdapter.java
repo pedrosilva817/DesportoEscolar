@@ -16,8 +16,8 @@ public class DesportoEscolarCursorAdapter extends RecyclerView.Adapter<DesportoE
     private Cursor cursor = null;
     private View.OnClickListener viewHolderClickListener = null;
     private int lastAtletaClicked = -1;
-    public DesportoEscolarCursorAdapter(Context context) {
 
+    public DesportoEscolarCursorAdapter(Context context) {
         this.context = context;
     }
 
@@ -38,15 +38,11 @@ public class DesportoEscolarCursorAdapter extends RecyclerView.Adapter<DesportoE
 
     @NonNull
     @Override
-
     public DesportoEscolarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View item = LayoutInflater.from(context).inflate(R.layout.activity_atletas, parent, false);
+        View item = LayoutInflater.from(context).inflate(R.layout.item_atleta, parent, false);
 
         return new DesportoEscolarViewHolder(item);
     }
-
-
-
 
 
     @Override
@@ -64,9 +60,13 @@ public class DesportoEscolarCursorAdapter extends RecyclerView.Adapter<DesportoE
         return cursor.getCount();
     }
 
+    public int getlastAtletaClicked() {
+        return lastAtletaClicked;
+    }
+
     public class DesportoEscolarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView textViewNome;
-        private TextView textViewData;
+        private TextView textViewAge;
         private int AtletaId;
 
         public DesportoEscolarViewHolder(View itemView) {
@@ -74,7 +74,6 @@ public class DesportoEscolarCursorAdapter extends RecyclerView.Adapter<DesportoE
 
             textViewNome = (TextView) itemView.findViewById(R.id.textViewNome);
             textViewAge = (TextView) itemView.findViewById(R.id.textViewAge);
-            textViewCourse = (TextView) itemView.findViewById(R.id.textViewCourse);
 
             itemView.setOnClickListener(this);
         }
@@ -82,7 +81,6 @@ public class DesportoEscolarCursorAdapter extends RecyclerView.Adapter<DesportoE
         public void setAtleta(Atletas atletas) {
             textViewNome.setText(atletas.getName());
             textViewAge.setText(String.format("%.2f", atletas.getAge()) + "");
-            textViewCourse.setText(atletas.getCourse());
             AtletaId = atletas.getId();
         }
 

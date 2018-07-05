@@ -4,7 +4,7 @@ public class Atletas {
     private int id;
     private String name;
     private int age;
-    private String course;
+    private int idDesporto;
 
     public int getId() {
         return id;
@@ -30,11 +30,11 @@ public class Atletas {
         this.age = age;
     }
 
-    public String getCourse() {
-        return course;
+    public int getIdDesporto() {
+        return idDesporto;
     }
 
-    public void setCourse(String course) {
-        this.course = course;
+    public void setIdDesporto(int IdDesporto) {
+        this.idDesporto = idDesporto;
     }
 }
