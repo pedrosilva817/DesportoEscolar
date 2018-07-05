@@ -10,12 +10,31 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+            android:label="DesportoEscolar"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <provider
+            android:name=".DesportoEscolarContentProvider"
+            android:authorities="pt.ipg.desportoescolar"
+            android:exported="false" />
+
+        <activity
+            android:name=".EditAtletaActivity"
+            android:label="@string/name_activity_edit_atleta"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="pt.ipg.desportoescolar.MainActivity" />
+        </activity>
+
     </application>
 
 </manifest>

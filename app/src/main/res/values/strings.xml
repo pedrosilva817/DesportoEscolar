@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">DesportoEscolar</string>
+    <string name="textview">TextView</string>
+    <string name="name_activity_edit_atleta">EditAtletaActivity</string>
 </resources>
